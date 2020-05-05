@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.sunasterisk.a14day_challenge.data.model.User
 
 class DataBaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -85,6 +86,32 @@ class DataBaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
             value.put("day$i", arr[i])
         }
         return value
+    }
+
+    fun getUserAll(): List<User> {
+        val userList = ArrayList<User>()
+        val query = "SELECT * FROM $TABLE_USER"
+
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(query, null)
+        cursor.moveToFirst()
+
+        while (!cursor.isAfterLast) {
+            val user = User(
+                cursor.getString(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getDouble(4),
+                cursor.getDouble(5),
+                cursor.getInt(6)
+            )
+
+            userList.add(user)
+            cursor.moveToNext()
+        }
+        cursor.close()
+        return userList
     }
 
     companion object{

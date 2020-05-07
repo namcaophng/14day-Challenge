@@ -19,4 +19,15 @@
     <string name="title_birthday">Birthday</string>
     <string name="title_height">Height</string>
     <string name="title_weight">Weight</string>
+    <string name="title_home_screen">Do you know why we should do exercise ?</string>
+    <string name="title_continue_challenge">Continue Challenge</string>
+    <string name="title_my_process">My Process</string>
+    <string name="title_picture_exercise">Some popular exercises</string>
+    <string name="title_answer_home_screen">Exercise helps people lose weight and lower the risk of some diseases.
+        Exercising regularly lowers a person\'s risk of developing some diseases, including obesity, type 2 diabetes, and high blood pressure.
+        Exercise also can help keep your body at a healthy weight.
+        When you exercise you feel better, you look better, you get stronger, you feel a sense of accomplishment, and that rush of endorphins has a ripple effect on everything you do.
+        When you feel better, you feel empowered and more confident. Win-win!</string>
+    <string name="title_picture_u23">u23 VietNam</string>
+    <string name="error_load_data">Something is wrong! Maybe account is existed or wrong account</string>
 </resources>

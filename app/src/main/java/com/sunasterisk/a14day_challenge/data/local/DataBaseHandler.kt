@@ -4,14 +4,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.sunasterisk.a14day_challenge.data.model.User
+import com.sunasterisk.a14day_challenge.data.model.User.Companion.getContentValues
 
-class DataBaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DataBaseHandler(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     //user
     private val CREATE_USER_TABLE = "CREATE TABLE $TABLE_USER (" +
             " $USER_ACC TEXT PRIMARY KEY," +
+            " $USER_NAME TEXT," +
             " $USER_PASS TEXT," +
             " $USER_BIR TEXT" +
             " $USER_HEIGHT REAL" +
@@ -49,41 +51,54 @@ class DataBaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
             " $CR_RUN INTEGER)"
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.run{
+        db?.run {
             execSQL(CREATE_USER_TABLE)
             execSQL(CREATE_EXERCISE_TABLE)
             execSQL(CREATE_PROCESS_TABLE)
             execSQL(CREATE_CURRENT_TABLE)
         }
 
-        initializeDefaultData()
+        initializeDefaultData(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         //Nothing in version 1
     }
 
-    private fun initializeDefaultData(){
+    private fun initializeDefaultData(db: SQLiteDatabase?) {
         //exercise
-        var db = this.writableDatabase
-
         val runData = arrayOf(1.0, 1.5, 1.5, 2.0, 2.5, 2.5, 3.0, 3.0, 3.5, 4.0, 4.0, 3.0, 4.0, 5.0)
-        val plankData = arrayOf(20.0, 20.0, 30.0, 35.0, 40.0, 20.0, 45.0, 45.0, 60.0, 60.0, 60.0, 90.0, 70.0, 90.0)
-        val pushUpData = arrayOf(5.0, 6.0, 6.0, 8.0, 8.0, 8.0, 10.0, 10.0, 12.0, 12.0, 12.0, 14.0, 14.0, 16.0)
+        val plankData = arrayOf(
+            20.0,
+            20.0,
+            30.0,
+            35.0,
+            40.0,
+            20.0,
+            45.0,
+            45.0,
+            60.0,
+            60.0,
+            60.0,
+            90.0,
+            70.0,
+            90.0
+        )
+        val pushUpData =
+            arrayOf(5.0, 6.0, 6.0, 8.0, 8.0, 8.0, 10.0, 10.0, 12.0, 12.0, 12.0, 14.0, 14.0, 16.0)
 
-        db.run{
+        db?.run {
             insert(TABLE_EXERCISE, null, getValues(runData, "Run"))
             insert(TABLE_EXERCISE, null, getValues(plankData, "Plank"))
             insert(TABLE_EXERCISE, null, getValues(pushUpData, "Push Up"))
-            close()
         }
     }
 
-    fun getValues(arr: Array<Double>, type: String): ContentValues{
+    private fun getValues(arr: Array<Double>, type: String): ContentValues {
         val value = ContentValues()
         value.put(COLUMN_TYPE, type)
-        for (i in 0..14){
-            value.put("day$i", arr[i])
+        for (i in 0..13) {
+            value.put("day${i + 1}", arr[i])
         }
         return value
     }
@@ -97,30 +112,40 @@ class DataBaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
         cursor.moveToFirst()
 
         while (!cursor.isAfterLast) {
-            val user = User(
-                cursor.getString(0),
-                cursor.getString(1),
-                cursor.getString(2),
-                cursor.getString(3),
-                cursor.getDouble(4),
-                cursor.getDouble(5),
-                cursor.getInt(6)
-            )
-
+            val user = User(cursor)
             userList.add(user)
             cursor.moveToNext()
         }
         cursor.close()
+        db.close()
         return userList
     }
 
-    companion object{
+    fun addUser(user: User): Boolean {
+        val userList = this.getUserAll()
+        var isValidUser = true
+        userList.forEach {
+            if (it.account == user.account) {
+                isValidUser = false
+            }
+        }
+        if (isValidUser) {
+            val db = this.writableDatabase
+            val result = db.insert(TABLE_USER, null, getContentValues(user)) != -1L
+            db.close()
+            return result
+        }
+        return false
+    }
+
+    companion object {
         private const val DATABASE_NAME = "data"
         private const val DATABASE_VERSION = 1
 
         //user
         private const val TABLE_USER = "user"
-        private const val USER_ACC = "name"
+        private const val USER_ACC = "account"
+        private const val USER_NAME = "name"
         private const val USER_PASS = "password"
         private const val USER_BIR = "birthday"
         private const val USER_HEIGHT = "height"

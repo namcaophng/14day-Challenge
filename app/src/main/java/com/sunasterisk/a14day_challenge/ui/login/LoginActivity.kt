@@ -10,8 +10,9 @@ import com.sunasterisk.a14day_challenge.R
 import com.sunasterisk.a14day_challenge.data.UserRepository
 import com.sunasterisk.a14day_challenge.data.local.DataBaseHandler
 import com.sunasterisk.a14day_challenge.data.local.UserLocalDataSource
-import com.sunasterisk.a14day_challenge.data.local.dao.UserDaoImp
+import com.sunasterisk.a14day_challenge.data.local.dao.UserDAOImp
 import com.sunasterisk.a14day_challenge.data.model.User
+import com.sunasterisk.a14day_challenge.ui.ContextExtensions.Companion.showToast
 import com.sunasterisk.a14day_challenge.ui.home.HomeActivity
 import com.sunasterisk.a14day_challenge.ui.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -19,15 +20,13 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity(), View.OnClickListener,
     LoginContract.View {
 
-    lateinit var presenter: LoginPresenter
-    lateinit var userRepository: UserRepository
+    private val userRepository = UserRepository(UserLocalDataSource(UserDAOImp(DataBaseHandler(this))))
+    private val presenter by lazy { LoginPresenter(this, userRepository) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        userRepository = UserRepository(UserLocalDataSource(UserDaoImp(DataBaseHandler(this))))
         registerListeners()
-        presenter = LoginPresenter(this)
     }
 
     private fun registerListeners() {
@@ -48,13 +47,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun handleLogin() {
         presenter.handleLogin(
-            userRepository,
             editAccount.text.toString(),
             editPassword.text.toString()
         )
     }
 
-    override fun onLoginSucceeded(user: User) {
+    override fun changeToHomeScreen(user: User) {
         startActivity(Intent(this, HomeActivity::class.java).apply {
             putExtra(ACCOUNT, user.account)
             putExtra(NAME, user.name)
@@ -62,8 +60,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener,
         })
     }
 
-    override fun onLoginFailure(error: String) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+    override fun showErrorLogin(error: String) {
+        showToast(error)
     }
 
     companion object {

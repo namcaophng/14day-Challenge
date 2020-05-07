@@ -1,13 +1,17 @@
 package com.sunasterisk.a14day_challenge.ui.login
 
+import android.content.res.Resources
 import com.sunasterisk.a14day_challenge.R
 import com.sunasterisk.a14day_challenge.data.UserRepository
 import com.sunasterisk.a14day_challenge.data.model.User
 
-class LoginPresenter(var view: LoginContract.View) :
+class LoginPresenter(
+    var view: LoginContract.View,
+    private val userRepository: UserRepository
+) :
     LoginContract.Presenter {
 
-    override fun handleLogin(userRepository: UserRepository, account: String, password: String) {
+    override fun handleLogin(account: String, password: String) {
         val userList = userRepository.getAllUsers()
         lateinit var user: User
         var userAccount: String
@@ -25,11 +29,11 @@ class LoginPresenter(var view: LoginContract.View) :
         }
 
         if (isValidUser) {
-            view.onLoginSucceeded(user)
+            view.changeToHomeScreen(user)
         } else if (account.isEmpty() || password.isEmpty()) {
-            view.onLoginFailure(R.string.error_login_empty.toString())
+            view.showErrorLogin(Resources.getSystem().getString(R.string.error_login_empty))
         } else {
-            view.onLoginFailure(R.string.error_login_account.toString())
+            view.showErrorLogin(Resources.getSystem().getString(R.string.error_login_account))
         }
     }
 }

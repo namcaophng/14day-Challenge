@@ -42,7 +42,7 @@ class SignUpPresenter(
             user,
             object : OnLoadedDataCallback<Boolean> {
                 override fun onSuccessful(data: Boolean) {
-                    view.changeToHomeScreen()
+                    view.changeToLoginScreen()
                 }
 
                 override fun onFailed(error: String) {

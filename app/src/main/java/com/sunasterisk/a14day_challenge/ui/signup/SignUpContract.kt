@@ -2,7 +2,7 @@ package com.sunasterisk.a14day_challenge.ui.signup
 
 interface SignUpContract {
     interface View {
-        fun changeToHomeScreen()
+        fun changeToLoginScreen()
 
         fun showErrorSignUp(error: String)
     }

@@ -9,7 +9,7 @@ import com.sunasterisk.a14day_challenge.data.local.DataBaseHandler
 import com.sunasterisk.a14day_challenge.data.local.UserLocalDataSource
 import com.sunasterisk.a14day_challenge.data.local.dao.UserDAOImp
 import com.sunasterisk.a14day_challenge.ui.ContextExtensions.Companion.showToast
-import com.sunasterisk.a14day_challenge.ui.home.HomeActivity.Companion.getHomeIntent
+import com.sunasterisk.a14day_challenge.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener,
@@ -48,8 +48,8 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener,
         )
     }
 
-    override fun changeToHomeScreen() {
-        startActivity(getHomeIntent(this, editUsername.text.toString(), editName.text.toString()))
+    override fun changeToLoginScreen() {
+        startActivity(LoginActivity.getIntent(this))
     }
 
     override fun showErrorSignUp(error: String) {

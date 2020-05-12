@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sunasterisk.a14day_challenge.R
 import com.sunasterisk.a14day_challenge.data.UserRepository
@@ -13,7 +12,7 @@ import com.sunasterisk.a14day_challenge.data.local.UserLocalDataSource
 import com.sunasterisk.a14day_challenge.data.local.dao.UserDAOImp
 import com.sunasterisk.a14day_challenge.data.model.User
 import com.sunasterisk.a14day_challenge.ui.ContextExtensions.Companion.showToast
-import com.sunasterisk.a14day_challenge.ui.home.HomeActivity
+import com.sunasterisk.a14day_challenge.ui.MainActivity
 import com.sunasterisk.a14day_challenge.ui.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -53,7 +52,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun changeToHomeScreen(user: User) {
-        startActivity(Intent(this, HomeActivity::class.java).apply {
+        startActivity(MainActivity.getIntent(this).apply {
             putExtra(ACCOUNT, user.account)
             putExtra(NAME, user.name)
             putExtra(PROCESS, user.process)

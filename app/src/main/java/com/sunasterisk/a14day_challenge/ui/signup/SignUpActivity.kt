@@ -1,5 +1,6 @@
 package com.sunasterisk.a14day_challenge.ui.signup
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +16,9 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUpActivity : AppCompatActivity(), View.OnClickListener,
     SignUpContract.View {
 
+    private val sharedPreferences by lazy { getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE) }
     private val userRepository =
-        UserRepository(UserLocalDataSource(UserDAOImp(DataBaseHandler(this))))
+        UserRepository.getInstance(UserLocalDataSource.getInstance(UserDAOImp.getInstance(DataBaseHandler.getInstance(this), sharedPreferences)))
     private val presenter by lazy { SignUpPresenter(this, userRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,5 +56,9 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun showErrorSignUp(error: String) {
         showToast(error)
+    }
+
+    companion object {
+        private const val PREF_FILE = "PREF_FILE"
     }
 }

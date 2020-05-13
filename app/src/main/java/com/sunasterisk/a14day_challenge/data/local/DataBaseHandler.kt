@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.sunasterisk.a14day_challenge.data.model.User
 import com.sunasterisk.a14day_challenge.data.model.User.Companion.getContentValues
 
-class DataBaseHandler(context: Context) :
+class DataBaseHandler private constructor(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     //user
@@ -181,5 +181,12 @@ class DataBaseHandler(context: Context) :
         private const val CR_RUN = "run"
         private const val CR_PLANK = "plank"
         private const val CR_PUSHUP = "pushUp"
+
+        private var instance: DataBaseHandler? = null
+
+        fun getInstance(context: Context) : DataBaseHandler =
+            instance ?: synchronized(lock = Any()) {
+                instance ?: DataBaseHandler(context).also { instance = it }
+            }
     }
 }

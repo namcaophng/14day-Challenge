@@ -7,4 +7,6 @@ interface UserDAO {
     fun getAllUsers(): List<User>?
 
     fun addUser(user: User, callback: OnLoadedDataCallback<Boolean>)
+
+    fun saveUser(account: String, name: String, process: Int)
 }

@@ -12,14 +12,16 @@ import com.sunasterisk.a14day_challenge.data.local.UserLocalDataSource
 import com.sunasterisk.a14day_challenge.data.local.dao.UserDAOImp
 import com.sunasterisk.a14day_challenge.data.model.User
 import com.sunasterisk.a14day_challenge.ui.ContextExtensions.Companion.showToast
-import com.sunasterisk.a14day_challenge.ui.MainActivity
+import com.sunasterisk.a14day_challenge.ui.main.MainActivity
 import com.sunasterisk.a14day_challenge.ui.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener,
     LoginContract.View {
 
-    private val userRepository = UserRepository(UserLocalDataSource(UserDAOImp(DataBaseHandler(this))))
+    private val sharedPreferences by lazy { getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE) }
+    private val userRepository =
+        UserRepository.getInstance(UserLocalDataSource.getInstance(UserDAOImp.getInstance(DataBaseHandler.getInstance(this), sharedPreferences)))
     private val presenter by lazy { LoginPresenter(this, userRepository) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +54,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun changeToHomeScreen(user: User) {
-        startActivity(MainActivity.getIntent(this).apply {
-            putExtra(ACCOUNT, user.account)
-            putExtra(NAME, user.name)
-            putExtra(PROCESS, user.process)
-        })
+        startActivity(MainActivity.getIntent(this, user))
     }
 
     override fun showErrorLogin(error: String) {
@@ -64,9 +62,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     companion object {
-        const val ACCOUNT = "account"
-        const val NAME = "name"
-        const val PROCESS = "process"
-        fun getIntent(context: Context) =  Intent(context, LoginActivity::class.java)
+        private const val PREF_FILE = "PREF_FILE"
+
+        fun getIntent(context: Context) = Intent(context, LoginActivity::class.java)
     }
 }

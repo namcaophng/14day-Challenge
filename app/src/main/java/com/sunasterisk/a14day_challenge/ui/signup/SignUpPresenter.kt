@@ -40,8 +40,8 @@ class SignUpPresenter(
 
         return userRepository.addUser(
             user,
-            object : OnLoadedDataCallback<Boolean> {
-                override fun onSuccessful(data: Boolean) {
+            object : OnLoadedDataCallback<Boolean?> {
+                override fun onSuccessful(data: Boolean?) {
                     view.changeToLoginScreen()
                 }
 

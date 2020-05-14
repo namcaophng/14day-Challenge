@@ -20,6 +20,7 @@
         android:gravity="bottom" />
 
     <EditText
+        android:id="@+id/editCurrentName"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -37,6 +38,7 @@
         android:gravity="bottom" />
 
     <EditText
+        android:id="@+id/editCurrentHeight"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -54,6 +56,7 @@
         android:gravity="bottom" />
 
     <EditText
+        android:id="@+id/editCurrentWeight"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -71,6 +74,7 @@
         android:gravity="bottom" />
 
     <EditText
+        android:id="@+id/editCurrentPassword"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -88,6 +92,7 @@
         android:gravity="bottom" />
 
     <EditText
+        android:id="@+id/editCurrentConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

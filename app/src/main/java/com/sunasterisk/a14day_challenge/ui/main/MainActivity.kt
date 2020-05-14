@@ -15,20 +15,32 @@ import com.sunasterisk.a14day_challenge.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
-    private val sharedPreferences by lazy { getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE) }
-    private val presenter by lazy { MainPresenter(this, userRepository) }
-    private val userRepository =
-        UserRepository.getInstance(UserLocalDataSource.getInstance(UserDAOImp.getInstance(DataBaseHandler.getInstance(this), sharedPreferences)))
+    private var presenter: MainPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initPresenter()
         saveUserInSharePref()
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, HomeFragment())
+            .add(R.id.fragment_container, HomeFragment.newInstance())
             .commit()
+    }
+
+    private fun initPresenter() {
+        val sharedPreferences = getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+        val userRepository =
+            UserRepository.getInstance(
+                UserLocalDataSource.getInstance(
+                    UserDAOImp.getInstance(
+                        DataBaseHandler.getInstance(this),
+                        sharedPreferences
+                    )
+                )
+            )
+        presenter = MainPresenter(this, userRepository)
     }
 
     private fun saveUserInSharePref() {
@@ -36,7 +48,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             val extraFrom = it.getStringExtra(EXTRA_FROM)
             if (extraFrom != null) {
                 if (extraFrom.contentEquals(LOGIN_SCREEN)) {
-                    presenter.saveUserInSharedPref(
+                    presenter?.saveUserInSharedPref(
                         it.getStringExtra(EXTRA_ACCOUNT),
                         it.getStringExtra(EXTRA_NAME),
                         it.getIntExtra(EXTRA_PROCESS, PROCESS_DEFAULT)

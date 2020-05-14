@@ -8,27 +8,28 @@ import com.sunasterisk.a14day_challenge.ui.edit.EditUserFragment
 import com.sunasterisk.a14day_challenge.ui.listExercise.ListExercisesActivity
 import com.sunasterisk.a14day_challenge.ui.login.LoginActivity
 import com.sunasterisk.a14day_challenge.ui.process.ProcessActivity
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment : Fragment(), View.OnClickListener {
+class HomeFragment private constructor() : Fragment(), View.OnClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+        registerListeners(view)
+        return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        registerListeners()
+        setHasOptionsMenu(true)
     }
 
-    private fun registerListeners() {
-        buttonContinueChallenge.setOnClickListener(this)
-        buttonMyProcess.setOnClickListener(this)
+    private fun registerListeners(view: View) {
+        view.buttonContinueChallenge.setOnClickListener(this)
+        view.buttonMyProcess.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -48,8 +49,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.home_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun changeToListExerciseScreen() {
@@ -76,5 +77,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
             replace(R.id.fragment_container, EditUserFragment.newInstance())
             commit()
         }
+    }
+
+    companion object {
+        fun newInstance() = HomeFragment()
     }
 }

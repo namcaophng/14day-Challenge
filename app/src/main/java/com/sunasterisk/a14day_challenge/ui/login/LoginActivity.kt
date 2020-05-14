@@ -3,6 +3,7 @@ package com.sunasterisk.a14day_challenge.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sunasterisk.a14day_challenge.R
@@ -19,15 +20,21 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity(), View.OnClickListener,
     LoginContract.View {
 
-    private val sharedPreferences by lazy { getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE) }
-    private val userRepository =
-        UserRepository.getInstance(UserLocalDataSource.getInstance(UserDAOImp.getInstance(DataBaseHandler.getInstance(this), sharedPreferences)))
-    private val presenter by lazy { LoginPresenter(this, userRepository) }
+    private var presenter: LoginPresenter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        initPresenter()
         registerListeners()
+    }
+
+    private fun initPresenter() {
+        val sharedPreferences = getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+        val userRepository =
+        UserRepository.getInstance(UserLocalDataSource.getInstance(UserDAOImp.getInstance(DataBaseHandler.getInstance(this), sharedPreferences)))
+        presenter = LoginPresenter(this, userRepository)
     }
 
     private fun registerListeners() {
@@ -47,7 +54,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun handleLogin() {
-        presenter.handleLogin(
+        presenter?.handleLogin(
             editAccount.text.toString(),
             editPassword.text.toString()
         )

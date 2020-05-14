@@ -4,8 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.sunasterisk.a14day_challenge.data.model.User
-import com.sunasterisk.a14day_challenge.data.model.User.Companion.getContentValues
 
 class DataBaseHandler private constructor(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -15,9 +15,9 @@ class DataBaseHandler private constructor(context: Context) :
             " $USER_ACC TEXT PRIMARY KEY," +
             " $USER_NAME TEXT," +
             " $USER_PASS TEXT," +
-            " $USER_BIR TEXT" +
-            " $USER_HEIGHT REAL" +
-            " $USER_WEIGHT INTEGER" +
+            " $USER_BIR TEXT," +
+            " $USER_HEIGHT TEXT," +
+            " $USER_WEIGHT TEXT," +
             " $USER_PROCESS INTEGER)"
 
     //exercise
@@ -121,7 +121,7 @@ class DataBaseHandler private constructor(context: Context) :
         return userList
     }
 
-    fun addUser(user: User): Boolean {
+    fun addUser(user: User): Boolean? {
         val userList = this.getUserAll()
         var isValidUser = true
         userList.forEach {
@@ -131,11 +131,33 @@ class DataBaseHandler private constructor(context: Context) :
         }
         if (isValidUser) {
             val db = this.writableDatabase
-            val result = db.insert(TABLE_USER, null, getContentValues(user)) != -1L
+            val result = db.insert(TABLE_USER, null, user.getContentValues()) != -1L
             db.close()
             return result
         }
         return false
+    }
+
+    fun updateUser(user: User?): Boolean? {
+        val db = this.writableDatabase
+        if (user == null) {
+            return null
+        }
+        db.update(TABLE_USER, user.getContentValues(), "$USER_ACC= ?", arrayOf(user.account))
+        return true
+    }
+
+    fun getCurrentUser(account: String): User? {
+        val db = this.readableDatabase
+        var user: User?
+        val cursor =
+            db.query(TABLE_USER, COLUMNS, "$USER_ACC=?", arrayOf(account), null, null, null)
+        cursor.run {
+            moveToFirst()
+            user = User(cursor)
+            close()
+        }
+        return user
     }
 
     companion object {
@@ -151,6 +173,15 @@ class DataBaseHandler private constructor(context: Context) :
         private const val USER_HEIGHT = "height"
         private const val USER_WEIGHT = "weight"
         private const val USER_PROCESS = "process"
+        private val COLUMNS = arrayOf(
+            USER_ACC,
+            USER_NAME,
+            USER_PASS,
+            USER_BIR,
+            USER_HEIGHT,
+            USER_WEIGHT,
+            USER_PROCESS
+        )
 
         //exercises
         private const val TABLE_EXERCISE = "exercise"
@@ -184,7 +215,7 @@ class DataBaseHandler private constructor(context: Context) :
 
         private var instance: DataBaseHandler? = null
 
-        fun getInstance(context: Context) : DataBaseHandler =
+        fun getInstance(context: Context): DataBaseHandler =
             instance ?: synchronized(lock = Any()) {
                 instance ?: DataBaseHandler(context).also { instance = it }
             }

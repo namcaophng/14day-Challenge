@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.sunasterisk.a14day_challenge.R
-import com.sunasterisk.a14day_challenge.ui.edit.EditFragment
+import com.sunasterisk.a14day_challenge.ui.edit.EditUserFragment
 import com.sunasterisk.a14day_challenge.ui.listExercise.ListExercisesActivity
 import com.sunasterisk.a14day_challenge.ui.login.LoginActivity
 import com.sunasterisk.a14day_challenge.ui.process.ProcessActivity
@@ -73,7 +73,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private fun changeToEditScreen() {
         val fragmentTrans = fragmentManager?.beginTransaction()
         fragmentTrans?.run {
-            replace(R.id.fragment_container, EditFragment.newInstance())
+            replace(R.id.fragment_container, EditUserFragment.newInstance())
             commit()
         }
     }

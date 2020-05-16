@@ -22,6 +22,16 @@ data class User(
         cursor.getInt(cursor.getColumnIndex(USER_PROCESS))
     )
 
+    fun getContentValues() = ContentValues().apply {
+        put(USER_ACC, account)
+        put(USER_NAME, name)
+        put(USER_PASS, password)
+        put(USER_BIR, birthday)
+        put(USER_HEIGHT, height)
+        put(USER_WEIGHT, weight)
+        put(USER_PROCESS, process)
+    }
+
     companion object {
         private const val USER_ACC = "account"
         private const val USER_NAME = "name"
@@ -30,14 +40,5 @@ data class User(
         private const val USER_HEIGHT = "height"
         private const val USER_WEIGHT = "weight"
         private const val USER_PROCESS = "process"
-        fun getContentValues(user: User) = ContentValues().apply {
-            put(USER_ACC, user.account)
-            put(USER_NAME, user.name)
-            put(USER_PASS, user.password)
-            put(USER_BIR, user.birthday)
-            put(USER_HEIGHT, user.height)
-            put(USER_WEIGHT, user.weight)
-            put(USER_PROCESS, user.process)
-        }
     }
 }

@@ -16,16 +16,28 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUpActivity : AppCompatActivity(), View.OnClickListener,
     SignUpContract.View {
 
-    private val sharedPreferences by lazy { getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE) }
-    private val userRepository =
-        UserRepository.getInstance(UserLocalDataSource.getInstance(UserDAOImp.getInstance(DataBaseHandler.getInstance(this), sharedPreferences)))
-    private val presenter by lazy { SignUpPresenter(this, userRepository) }
+    private var presenter: SignUpPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
+        initPresenter()
         registerListeners()
+    }
+
+    private fun initPresenter() {
+        val sharedPreferences = getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+        val userRepository =
+            UserRepository.getInstance(
+                UserLocalDataSource.getInstance(
+                    UserDAOImp.getInstance(
+                        DataBaseHandler.getInstance(this),
+                        sharedPreferences
+                    )
+                )
+            )
+        presenter = SignUpPresenter(this, userRepository)
     }
 
     private fun registerListeners() {
@@ -39,7 +51,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun handleSignUp() {
-        presenter.handleSignUp(
+        presenter?.handleSignUp(
             editConfirmPassword.text.toString(),
             editUsername.text.toString(),
             editName.text.toString(),

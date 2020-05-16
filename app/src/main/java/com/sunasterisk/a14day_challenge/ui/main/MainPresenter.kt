@@ -15,7 +15,7 @@ class MainPresenter(
         process: Int
     ) {
         if (account != null && name != null) {
-            userRepository.saveUser(account, name, process)
+            userRepository.saveUserOnSharedPref(account, name, process)
         } else {
             view.showToastError(Resources.getSystem().getString(R.string.error_push_shared_pref))
         }

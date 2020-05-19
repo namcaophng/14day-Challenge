@@ -39,19 +39,12 @@ class EditUserFragment private constructor() : Fragment(),
 
     private fun initPresenter() {
         val context = context ?: return
-        val sharedPreferences by lazy {
-            context.getSharedPreferences(
-                PREF_FILE, Context.MODE_PRIVATE
-            )
-        }
-        val userRepository = UserRepository.getInstance(
-            UserLocalDataSource.getInstance(
-                UserDAOImp.getInstance(
-                    DataBaseHandler.getInstance(context),
-                    sharedPreferences
-                )
-            )
-        )
+        val sharedPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+        val db = DataBaseHandler.getInstance(context)
+        val userDAO = UserDAOImp.getInstance(db, sharedPreferences)
+        val userDataSource = UserLocalDataSource.getInstance(userDAO)
+        val userRepository = UserRepository.getInstance(userDataSource)
+
         presenter = EditUserPresenter(this, userRepository)
     }
 

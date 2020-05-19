@@ -3,7 +3,6 @@ package com.sunasterisk.a14day_challenge.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sunasterisk.a14day_challenge.R
@@ -32,8 +31,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun initPresenter() {
         val sharedPreferences = getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
-        val userRepository =
-        UserRepository.getInstance(UserLocalDataSource.getInstance(UserDAOImp.getInstance(DataBaseHandler.getInstance(this), sharedPreferences)))
+        val db = DataBaseHandler.getInstance(this)
+        val userDAO = UserDAOImp.getInstance(db, sharedPreferences)
+        val userDataSource = UserLocalDataSource.getInstance(userDAO)
+        val userRepository = UserRepository.getInstance(userDataSource)
+
         presenter = LoginPresenter(this, userRepository)
     }
 

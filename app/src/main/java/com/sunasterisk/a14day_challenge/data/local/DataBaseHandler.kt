@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class DataBaseHandler private constructor(context: Context) :
@@ -138,11 +137,10 @@ class DataBaseHandler private constructor(context: Context) :
         return false
     }
 
-    fun updateUser(user: User?): Boolean? {
+    fun updateUser(user: User?): Boolean {
         val db = this.writableDatabase
-        if (user == null) {
-            return null
-        }
+        user ?: return false
+
         db.update(TABLE_USER, user.getContentValues(), "$USER_ACC= ?", arrayOf(user.account))
         return true
     }

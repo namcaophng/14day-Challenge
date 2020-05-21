@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sunasterisk.a14day_challenge">
 
     <application
@@ -8,7 +9,9 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup">
+        <activity android:name=".ui.ExerciseActivity" />
         <activity android:name=".ui.process.ProcessActivity" />
         <activity android:name=".ui.listExercise.ListExercisesActivity" />
         <activity android:name=".ui.main.MainActivity" />

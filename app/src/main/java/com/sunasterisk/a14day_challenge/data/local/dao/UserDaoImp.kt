@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.sunasterisk.a14day_challenge.data.local.DataBaseHandler
 import com.sunasterisk.a14day_challenge.data.local.LoadDataAsync
 import com.sunasterisk.a14day_challenge.data.local.OnLoadedDataCallback
+import com.sunasterisk.a14day_challenge.data.model.CurrentDay
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class UserDAOImp private constructor(
@@ -25,7 +26,7 @@ class UserDAOImp private constructor(
     }
 
     override fun updateUser(user: User?, callback: OnLoadedDataCallback<Boolean?>) {
-        LoadDataAsync<User, Boolean?>(callback){
+        LoadDataAsync<User, Boolean?>(callback) {
             db?.updateUser(user)
         }.execute(user)
     }
@@ -53,10 +54,34 @@ class UserDAOImp private constructor(
         }
     }
 
+    override fun saveCurrentDate(date: String) {
+        sharedPreferences.edit().apply {
+            putString(PREF_DATE, date)
+            apply()
+        }
+    }
+
+    override fun saveProcessUser(currentDay: CurrentDay) {
+        sharedPreferences.edit().apply {
+            putBoolean(PREF_RUN, currentDay.run)
+            putBoolean(PREF_PUSH_UP, currentDay.pushedUp)
+            putBoolean(PREF_PLANK, currentDay.planked)
+            apply()
+        }
+    }
+
+    override fun getSavedDate() = sharedPreferences.getString(PREF_DATE, null)
+
+    override fun getProcessUser(user: User?) = CurrentDay(user, sharedPreferences)
+
     companion object {
-        private const val PREF_ACCOUNT = "pref_account"
-        private const val PREF_NAME = "pref_name"
-        private const val PREF_PROCESS = "pref_process"
+        private const val PREF_ACCOUNT = "PREF_ACCOUNT"
+        private const val PREF_NAME = "PREF_NAME"
+        private const val PREF_PROCESS = "PREF_PROCESS"
+        private const val PREF_DATE = "PREF_DATE"
+        private const val PREF_RUN = "PREF_RUN"
+        private const val PREF_PUSH_UP = "PREF_PUSH_UP"
+        private const val PREF_PLANK = "PREF_PLANK"
 
         private var instance: UserDAOImp? = null
 

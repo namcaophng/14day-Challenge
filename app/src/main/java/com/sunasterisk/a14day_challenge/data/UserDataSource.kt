@@ -1,6 +1,7 @@
 package com.sunasterisk.a14day_challenge.data
 
 import com.sunasterisk.a14day_challenge.data.local.OnLoadedDataCallback
+import com.sunasterisk.a14day_challenge.data.model.CurrentDay
 import com.sunasterisk.a14day_challenge.data.model.User
 
 interface UserDataSource {
@@ -10,6 +11,14 @@ interface UserDataSource {
         fun addUser(user: User, callback: OnLoadedDataCallback<Boolean?>)
 
         fun saveUserOnSharedPref(account: String, name: String, process: Int)
+
+        fun saveCurrentDate(date: String)
+
+        fun saveProcessUser(currentDay: CurrentDay)
+
+        fun getProcessUser(user: User?): CurrentDay
+
+        fun getSavedDate(): String?
 
         fun getCurrentUser(): User?
 

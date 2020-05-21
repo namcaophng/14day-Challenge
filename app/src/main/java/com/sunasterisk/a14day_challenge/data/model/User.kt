@@ -4,10 +4,10 @@ import android.content.ContentValues
 import android.database.Cursor
 
 data class User(
-    val account: String,
+    var account: String,
     var name: String,
     var password: String,
-    val birthday: String,
+    var birthday: String,
     var height: String,
     var weight: String,
     var process: Int

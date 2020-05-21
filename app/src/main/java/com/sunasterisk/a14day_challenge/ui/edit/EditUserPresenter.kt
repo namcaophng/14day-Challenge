@@ -26,7 +26,12 @@ class EditUserPresenter(
             return
         }
 
-        val user = userRepository.getCurrentUser()
+        val user = userRepository.getCurrentUser()?.apply {
+            this.name = name
+            this.password = password
+            this.height = height
+            this.weight = weight
+        }
 
         return userRepository.updateUser(
             user,

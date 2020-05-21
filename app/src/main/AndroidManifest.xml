@@ -9,7 +9,9 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.process.ProcessActivity" />
+        <activity android:name=".ui.listExercise.ListExercisesActivity" />
+        <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.signup.SignUpActivity" />
         <activity
             android:name=".ui.SplashActivity"

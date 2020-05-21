@@ -31,15 +31,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private fun initPresenter() {
         val sharedPreferences = getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
-        val userRepository =
-            UserRepository.getInstance(
-                UserLocalDataSource.getInstance(
-                    UserDAOImp.getInstance(
-                        DataBaseHandler.getInstance(this),
-                        sharedPreferences
-                    )
-                )
-            )
+        val db = DataBaseHandler.getInstance(this)
+        val userDAO = UserDAOImp.getInstance(db, sharedPreferences)
+        val userDataSource = UserLocalDataSource.getInstance(userDAO)
+        val userRepository = UserRepository.getInstance(userDataSource)
+
         presenter = MainPresenter(this, userRepository)
     }
 

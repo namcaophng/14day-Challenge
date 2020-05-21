@@ -17,7 +17,7 @@ class HomeFragment private constructor() : Fragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
         registerListeners(view)
         return view
     }
@@ -48,8 +48,8 @@ class HomeFragment private constructor() : Fragment(), View.OnClickListener {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.home_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

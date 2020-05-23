@@ -1,6 +1,7 @@
 package com.sunasterisk.a14day_challenge.data
 
 import com.sunasterisk.a14day_challenge.data.local.OnLoadedDataCallback
+import com.sunasterisk.a14day_challenge.data.model.CurrentDay
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class UserRepository private constructor(
@@ -20,6 +21,22 @@ class UserRepository private constructor(
 
     override fun saveUserOnSharedPref(account: String, name: String, process: Int) {
         local.saveUserOnSharedPref(account, name, process)
+    }
+
+    override fun saveCurrentDate(date: String) {
+        local.saveCurrentDate(date)
+    }
+
+    override fun saveProcessUser(currentDay: CurrentDay) {
+        local.saveProcessUser(currentDay)
+    }
+
+    override fun getProcessUser(user: User?): CurrentDay {
+        return local.getProcessUser(user)
+    }
+
+    override fun getSavedDate(): String? {
+        return local.getSavedDate()
     }
 
     override fun addUser(user: User, callback: OnLoadedDataCallback<Boolean?>) {

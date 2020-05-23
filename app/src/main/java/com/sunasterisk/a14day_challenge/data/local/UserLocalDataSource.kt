@@ -2,6 +2,7 @@ package com.sunasterisk.a14day_challenge.data.local
 
 import com.sunasterisk.a14day_challenge.data.UserDataSource
 import com.sunasterisk.a14day_challenge.data.local.dao.UserDAO
+import com.sunasterisk.a14day_challenge.data.model.CurrentDay
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class UserLocalDataSource private constructor(private val userDAO: UserDAO) : UserDataSource.Local {
@@ -19,6 +20,22 @@ class UserLocalDataSource private constructor(private val userDAO: UserDAO) : Us
 
     override fun saveUserOnSharedPref(account: String, name: String, process: Int) {
         userDAO.saveUserOnSharedPref(account, name, process)
+    }
+
+    override fun saveCurrentDate(date: String) {
+        userDAO.saveCurrentDate(date)
+    }
+
+    override fun saveProcessUser(currentDay: CurrentDay) {
+        userDAO.saveProcessUser(currentDay)
+    }
+
+    override fun getProcessUser(user: User?): CurrentDay {
+        return userDAO.getProcessUser(user)
+    }
+
+    override fun getSavedDate(): String? {
+        return userDAO.getSavedDate()
     }
 
     override fun addUser(user: User, callback: OnLoadedDataCallback<Boolean?>) {

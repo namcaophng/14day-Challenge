@@ -3,6 +3,7 @@ package com.sunasterisk.a14day_challenge.ui.listExercise
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunasterisk.a14day_challenge.R
@@ -58,7 +59,7 @@ class ListExercisesActivity : AppCompatActivity(), ListExercisesContract.View {
             R.drawable.image_push_up,
             getString(R.string.title_push_up_exercise),
             getString(R.string.title_short_guide_push_up),
-            currentDay.run
+            currentDay.pushedUp
         ),
         DetailExercise(
             R.drawable.image_plank,
@@ -69,7 +70,8 @@ class ListExercisesActivity : AppCompatActivity(), ListExercisesContract.View {
         DetailExercise(
             R.drawable.image_run,
             getString(R.string.title_run_exercise),
-            getString(R.string.title_short_guide_run)
+            getString(R.string.title_short_guide_run),
+            currentDay.run
         )
     )
 

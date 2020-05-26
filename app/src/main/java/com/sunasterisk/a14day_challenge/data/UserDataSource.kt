@@ -2,6 +2,7 @@ package com.sunasterisk.a14day_challenge.data
 
 import com.sunasterisk.a14day_challenge.data.local.OnLoadedDataCallback
 import com.sunasterisk.a14day_challenge.data.model.CurrentDay
+import com.sunasterisk.a14day_challenge.data.model.Exercise
 import com.sunasterisk.a14day_challenge.data.model.User
 
 interface UserDataSource {
@@ -25,5 +26,9 @@ interface UserDataSource {
         fun updateUser(user: User?, callback: OnLoadedDataCallback<Boolean?>)
 
         fun editUserOnSharedPref(name: String)
+
+        fun getDataForCurrentDay(process: Int): Exercise?
+
+        fun saveDoneForRunExercise()
     }
 }

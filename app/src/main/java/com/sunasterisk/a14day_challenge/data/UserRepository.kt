@@ -2,11 +2,21 @@ package com.sunasterisk.a14day_challenge.data
 
 import com.sunasterisk.a14day_challenge.data.local.OnLoadedDataCallback
 import com.sunasterisk.a14day_challenge.data.model.CurrentDay
+import com.sunasterisk.a14day_challenge.data.model.Exercise
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class UserRepository private constructor(
     private val local: UserDataSource.Local
 ) : UserDataSource.Local {
+
+    override fun saveDoneForRunExercise() {
+        local.saveDoneForRunExercise()
+    }
+
+    override fun getDataForCurrentDay(process: Int): Exercise? {
+        return local.getDataForCurrentDay(process)
+    }
+
     override fun editUserOnSharedPref(name: String) {
         local.editUserOnSharedPref(name)
     }

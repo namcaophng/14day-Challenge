@@ -5,12 +5,25 @@ import com.sunasterisk.a14day_challenge.data.local.DataBaseHandler
 import com.sunasterisk.a14day_challenge.data.local.LoadDataAsync
 import com.sunasterisk.a14day_challenge.data.local.OnLoadedDataCallback
 import com.sunasterisk.a14day_challenge.data.model.CurrentDay
+import com.sunasterisk.a14day_challenge.data.model.Exercise
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class UserDAOImp private constructor(
     private val db: DataBaseHandler?,
     private val sharedPreferences: SharedPreferences
 ) : UserDAO {
+
+    override fun saveDoneForRunExercise() {
+        sharedPreferences.edit().apply {
+            putBoolean(PREF_PUSH_UP, true)
+            apply()
+        }
+    }
+
+    override fun getDataForCurrentDay(process: Int): Exercise? {
+        return db?.getDataForCurrentDay(process)
+    }
+
     override fun editUserOnSharedPref(name: String) {
         sharedPreferences.edit().apply {
             putString(PREF_NAME, name)

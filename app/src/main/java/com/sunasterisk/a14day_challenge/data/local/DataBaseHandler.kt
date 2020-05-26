@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.sunasterisk.a14day_challenge.data.model.Exercise
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class DataBaseHandler private constructor(context: Context) :
@@ -149,7 +150,7 @@ class DataBaseHandler private constructor(context: Context) :
         val db = this.readableDatabase
         var user: User?
         val cursor =
-            db.query(TABLE_USER, COLUMNS, "$USER_ACC=?", arrayOf(account), null, null, null)
+            db.query(TABLE_USER, COLUMNS_USER, "$USER_ACC=?", arrayOf(account), null, null, null)
         cursor.run {
             moveToFirst()
             user = User(cursor)
@@ -157,6 +158,24 @@ class DataBaseHandler private constructor(context: Context) :
         }
         return user
     }
+
+    fun getDataForCurrentDay(process: Int): Exercise {
+        val db = this.readableDatabase
+        val day = getCurrentDay(process)
+        val query = "SELECT $COLUMN_TYPE, $day FROM $TABLE_EXERCISE"
+        val cursor = db.rawQuery(query, null)
+        cursor.moveToFirst()
+        val data = mutableListOf<Double>()
+        while (!cursor.isAfterLast) {
+            data.add(cursor.getDouble(cursor.getColumnIndex(day)))
+            cursor.moveToNext()
+        }
+        cursor.close()
+        db.close()
+        return Exercise(data)
+    }
+
+    private fun getCurrentDay (process: Int) = "day$process"
 
     companion object {
         private const val DATABASE_NAME = "data"
@@ -171,7 +190,7 @@ class DataBaseHandler private constructor(context: Context) :
         private const val USER_HEIGHT = "height"
         private const val USER_WEIGHT = "weight"
         private const val USER_PROCESS = "process"
-        private val COLUMNS = arrayOf(
+        private val COLUMNS_USER = arrayOf(
             USER_ACC,
             USER_NAME,
             USER_PASS,

@@ -3,9 +3,19 @@ package com.sunasterisk.a14day_challenge.data.local
 import com.sunasterisk.a14day_challenge.data.UserDataSource
 import com.sunasterisk.a14day_challenge.data.local.dao.UserDAO
 import com.sunasterisk.a14day_challenge.data.model.CurrentDay
+import com.sunasterisk.a14day_challenge.data.model.Exercise
 import com.sunasterisk.a14day_challenge.data.model.User
 
 class UserLocalDataSource private constructor(private val userDAO: UserDAO) : UserDataSource.Local {
+
+    override fun saveDoneForRunExercise() {
+        userDAO.saveDoneForRunExercise()
+    }
+
+    override fun getDataForCurrentDay(process: Int): Exercise? {
+        return userDAO.getDataForCurrentDay(process)
+    }
+
     override fun editUserOnSharedPref(name: String) {
         userDAO.editUserOnSharedPref(name)
     }

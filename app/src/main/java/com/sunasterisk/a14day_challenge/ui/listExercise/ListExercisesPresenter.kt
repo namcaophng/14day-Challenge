@@ -1,5 +1,6 @@
 package com.sunasterisk.a14day_challenge.ui.listExercise
 
+import android.util.Log
 import com.sunasterisk.a14day_challenge.data.UserRepository
 import com.sunasterisk.a14day_challenge.data.model.CurrentDay
 import java.time.LocalDateTime

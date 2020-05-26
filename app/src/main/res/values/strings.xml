@@ -49,5 +49,10 @@
     <string name="title_plank_exercise">Plank</string>
     <string name="title_short_guide_plank">Place forearms on the floor with elbows aligned below shoulders and arms …</string>
     <string name="title_run_exercise">Run</string>
-    <string name="title_short_guide_run">Start each run with a gentle warm-up of at least 5 minutes. This can include quick walking, ...</string>
+    <string name="title_short_guide_run">Start each run with a gentle warm-up of at least 5 minutes. This can include quick walking, …</string>
+    <string name="title_how_to_do_exercise">How?</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_suggestion_push_up">Today, you should get: </string>
+    <string name="title_finish_exercise">Finish</string>
+    <string name="title_completed_exercise">Congrats, you have completed exercise today</string>
 </resources>

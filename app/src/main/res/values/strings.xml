@@ -55,4 +55,7 @@
     <string name="title_suggestion_push_up">Today, you should get: </string>
     <string name="title_finish_exercise">Finish</string>
     <string name="title_completed_exercise">Congrats, you have completed exercise today</string>
+    <string name="title_start_plank">Start</string>
+    <string name="title_time_plank">Time</string>
+    <string name="title_finish_task">Task completed</string>
 </resources>

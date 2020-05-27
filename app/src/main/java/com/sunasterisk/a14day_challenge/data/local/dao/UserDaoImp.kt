@@ -13,9 +13,23 @@ class UserDAOImp private constructor(
     private val sharedPreferences: SharedPreferences
 ) : UserDAO {
 
-    override fun saveDoneForRunExercise() {
+    override fun saveDoneForPlankExercise() {
+        sharedPreferences.edit().apply {
+            putBoolean(PREF_PLANK, true)
+            apply()
+        }
+    }
+
+    override fun saveDoneForPushUpExercise() {
         sharedPreferences.edit().apply {
             putBoolean(PREF_PUSH_UP, true)
+            apply()
+        }
+    }
+
+    override fun saveDoneForRunExercise() {
+        sharedPreferences.edit().apply {
+            putBoolean(PREF_RUN, true)
             apply()
         }
     }

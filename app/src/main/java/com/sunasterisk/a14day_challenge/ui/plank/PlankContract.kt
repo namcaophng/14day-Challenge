@@ -1,8 +1,8 @@
-package com.sunasterisk.a14day_challenge.ui.pushUp
+package com.sunasterisk.a14day_challenge.ui.plank
 
-interface PushUpContract {
+interface PlankContract {
     interface View {
-        fun showDataForCurrentDay(times: Int)
+        fun showDataForCurrentDay(timeSecond: Int)
 
         fun navigateToListExercise()
 
@@ -12,6 +12,6 @@ interface PushUpContract {
     interface Presenter {
         fun getDataForCurrentDay()
 
-        fun finishPushUpExercise()
+        fun finishPlankExercise()
     }
 }

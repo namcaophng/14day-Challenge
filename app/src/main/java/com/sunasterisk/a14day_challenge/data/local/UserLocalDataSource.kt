@@ -12,6 +12,14 @@ class UserLocalDataSource private constructor(private val userDAO: UserDAO) : Us
         userDAO.saveDoneForRunExercise()
     }
 
+    override fun saveDoneForPushUpExercise() {
+        userDAO.saveDoneForPushUpExercise()
+    }
+
+    override fun saveDoneForPlankExercise() {
+        userDAO.saveDoneForPlankExercise()
+    }
+
     override fun getDataForCurrentDay(process: Int): Exercise? {
         return userDAO.getDataForCurrentDay(process)
     }

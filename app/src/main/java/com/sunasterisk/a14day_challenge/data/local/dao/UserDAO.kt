@@ -29,4 +29,8 @@ interface UserDAO {
     fun getDataForCurrentDay(process: Int): Exercise?
 
     fun saveDoneForRunExercise()
+
+    fun saveDoneForPushUpExercise()
+
+    fun saveDoneForPlankExercise()
 }

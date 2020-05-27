@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.sunasterisk.a14day_challenge.R
@@ -13,17 +14,18 @@ import com.sunasterisk.a14day_challenge.data.local.DataBaseHandler
 import com.sunasterisk.a14day_challenge.data.local.UserLocalDataSource
 import com.sunasterisk.a14day_challenge.data.local.dao.UserDAOImp
 import com.sunasterisk.a14day_challenge.ui.listExercise.ListExercisesActivity
-import kotlinx.android.synthetic.main.fragment_push_up.*
 import kotlinx.android.synthetic.main.fragment_push_up.view.*
 
 class PushUpFragment private constructor() : Fragment(),
     PushUpContract.View,
     View.OnClickListener {
 
-    private var presenter: PushUpContract.Presenter? = null
+    private var presenter: PushUpPresenter? = null
+    private var textTimesPushUp: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initPresenter()
     }
 
@@ -34,6 +36,8 @@ class PushUpFragment private constructor() : Fragment(),
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_push_up, container, false)
         registerListeners(view)
+        textTimesPushUp = view.findViewById(R.id.textTitlePushUpExercise)
+        presenter?.getDataForCurrentDay()
         return view
     }
 
@@ -53,7 +57,7 @@ class PushUpFragment private constructor() : Fragment(),
     }
 
     override fun showDataForCurrentDay(times: Int) {
-        textTitlePushUpExercise.text = getTextTitle(times)
+        textTimesPushUp?.text = getTextTitle(times)
     }
 
     override fun navigateToListExercise() {
@@ -66,11 +70,11 @@ class PushUpFragment private constructor() : Fragment(),
         Toast.makeText(context, mess, Toast.LENGTH_SHORT).show()
     }
 
-    private fun getTextTitle(times: Int) = "${getString(R.string.title_suggestion_push_up)} $times"
+    private fun getTextTitle(times: Int): String = "${getString(R.string.title_suggestion_push_up)} $times"
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.buttonFinishPushUp -> presenter?.finishRunExercise()
+            R.id.buttonFinishPushUp -> presenter?.finishPushUpExercise()
         }
     }
 

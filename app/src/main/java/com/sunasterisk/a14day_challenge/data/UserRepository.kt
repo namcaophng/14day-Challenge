@@ -13,6 +13,14 @@ class UserRepository private constructor(
         local.saveDoneForRunExercise()
     }
 
+    override fun saveDoneForPushUpExercise() {
+        local.saveDoneForPushUpExercise()
+    }
+
+    override fun saveDoneForPlankExercise() {
+        local.saveDoneForPlankExercise()
+    }
+
     override fun getDataForCurrentDay(process: Int): Exercise? {
         return local.getDataForCurrentDay(process)
     }

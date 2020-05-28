@@ -1,24 +1,22 @@
-package com.sunasterisk.a14day_challenge.ui.plank
+package com.sunasterisk.a14day_challenge.ui.run
 
-import android.content.res.Resources
 import com.sunasterisk.a14day_challenge.R
 import com.sunasterisk.a14day_challenge.data.UserRepository
 import com.sunasterisk.a14day_challenge.data.local.OnLoadedDataCallback
 
-class PlankPresenter(
-    private val view: PlankContract.View,
+class RunPresenter(
+    private val view: RunContract.View,
     private val repository: UserRepository
-) : PlankContract.Presenter {
-
+) : RunContract.Presenter {
     override fun getDataForCurrentDay() {
         val user = repository.getCurrentUser() ?: return
-        val timesPlankCurrentDay = repository.getDataForCurrentDay(user.process) ?: return
+        val meterRunForToday = repository.getDataForCurrentDay(user.process) ?: return
 
-        view.showDataForCurrentDay(timesPlankCurrentDay.plank.toInt())
+        view.showDataForCurrentDay((meterRunForToday.run * conversionKilometerToMeter).toInt())
     }
 
-    override fun finishPlankExercise() {
-        repository.saveDoneForPlankExercise()
+    override fun finishRunExercise() {
+        repository.saveDoneForRunExercise()
         view.navigateToListExercise()
 
         val user = repository.getCurrentUser() ?: return
@@ -31,9 +29,7 @@ class PlankPresenter(
                 object : OnLoadedDataCallback<Boolean?> {
 
                     override fun onSuccessful(data: Boolean?) {
-                        view.showToast(
-                            Resources.getSystem().getString(R.string.title_completed_exercise)
-                        )
+                        view.showToast(R.string.title_completed_exercise)
                     }
 
                     override fun onFailed(error: String) {
@@ -43,5 +39,9 @@ class PlankPresenter(
 
             repository.resetStatusAllExercise()
         }
+    }
+
+    companion object {
+        private const val conversionKilometerToMeter = 1000
     }
 }

@@ -9,6 +9,10 @@ class UserRepository private constructor(
     private val local: UserDataSource.Local
 ) : UserDataSource.Local {
 
+    override fun resetStatusAllExercise() {
+        local.resetStatusAllExercise()
+    }
+
     override fun saveDoneForRunExercise() {
         local.saveDoneForRunExercise()
     }

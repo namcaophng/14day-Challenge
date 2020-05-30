@@ -58,4 +58,8 @@
     <string name="title_start_plank">Start</string>
     <string name="title_time_plank">Time</string>
     <string name="title_finish_task">Task completed</string>
+    <string name="title_suggestion_run_exercise">Today, you should run: %1$d m</string>
+    <string name="title_actual_run_exercise">Actual:</string>
+    <string name="title_start_run_exercise">Start</string>
+    <string name="title_update_ui">Distance is %1$d M</string>
 </resources>

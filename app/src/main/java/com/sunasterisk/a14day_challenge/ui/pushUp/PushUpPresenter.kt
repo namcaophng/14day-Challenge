@@ -37,6 +37,8 @@ class PushUpPresenter(
                         view.showToast(error)
                     }
                 })
+
+            repository.resetStatusAllExercise()
         }
     }
 }

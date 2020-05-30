@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sunasterisk.a14day_challenge">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -16,6 +20,7 @@
         <activity android:name=".ui.listExercise.ListExercisesActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.signup.SignUpActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/splash_theme">
@@ -25,7 +30,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.LoginActivity" />
+
+        <service android:name=".service.RunExerciseService" />
     </application>
 
 </manifest>

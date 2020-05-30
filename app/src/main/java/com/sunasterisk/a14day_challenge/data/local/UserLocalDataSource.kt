@@ -8,6 +8,10 @@ import com.sunasterisk.a14day_challenge.data.model.User
 
 class UserLocalDataSource private constructor(private val userDAO: UserDAO) : UserDataSource.Local {
 
+    override fun resetStatusAllExercise() {
+        userDAO.resetStatusAllExercise()
+    }
+
     override fun saveDoneForRunExercise() {
         userDAO.saveDoneForRunExercise()
     }

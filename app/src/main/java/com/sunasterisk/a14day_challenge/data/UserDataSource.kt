@@ -34,5 +34,7 @@ interface UserDataSource {
         fun saveDoneForPushUpExercise()
 
         fun saveDoneForPlankExercise()
+
+        fun resetStatusAllExercise()
     }
 }

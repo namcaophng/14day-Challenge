@@ -33,4 +33,6 @@ interface UserDAO {
     fun saveDoneForPushUpExercise()
 
     fun saveDoneForPlankExercise()
+
+    fun resetStatusAllExercise()
 }
